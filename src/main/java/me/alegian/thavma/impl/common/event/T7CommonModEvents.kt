@@ -1,5 +1,9 @@
 package me.alegian.thavma.impl.common.event
 
+import me.alegian.thavma.impl.Thavma
+import me.alegian.thavma.impl.client.gui.layer.*
+import me.alegian.thavma.impl.client.gui.layer.RequestHistoryPacket.HistoryResponsePacket.Companion.handleHistoryResponse
+import me.alegian.thavma.impl.client.gui.layer.RequestHistoryPacket.handleHistoryRequest
 import me.alegian.thavma.impl.common.entity.AngryZombieEntity
 import me.alegian.thavma.impl.common.payload.*
 import me.alegian.thavma.impl.common.research.ResearchCategory
@@ -11,15 +15,22 @@ import me.alegian.thavma.impl.init.registries.T7Registries
 import me.alegian.thavma.impl.init.registries.deferred.*
 import me.alegian.thavma.impl.init.registries.deferred.callback.WandCallbacks
 import me.alegian.thavma.impl.integration.curios.CuriosIntegration
+import net.minecraft.client.Minecraft
 import net.minecraft.core.component.DataComponents
 import net.minecraft.core.registries.Registries
 import net.minecraft.data.loot.LootTableProvider.SubProviderEntry
+import net.minecraft.network.chat.Component
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.SpawnPlacementTypes
 import net.minecraft.world.entity.monster.Monster
 import net.minecraft.world.level.block.ChestBlock
 import net.minecraft.world.level.levelgen.Heightmap
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets
+import net.neoforged.api.distmarker.Dist
+import net.neoforged.api.distmarker.OnlyIn
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent
 import net.neoforged.neoforge.capabilities.Capabilities
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent
 import net.neoforged.neoforge.data.event.GatherDataEvent
@@ -29,6 +40,7 @@ import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent
 import net.neoforged.neoforge.items.wrapper.InvWrapper
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent
+import net.neoforged.neoforge.network.handling.IPayloadContext
 import net.neoforged.neoforge.registries.DataPackRegistryEvent
 import net.neoforged.neoforge.registries.ModifyRegistriesEvent
 import net.neoforged.neoforge.registries.NewRegistryEvent
@@ -153,6 +165,36 @@ private fun registerSpawnPlacements(event: RegisterSpawnPlacementsEvent) {
   )
 }
 
+private fun onCommonSetup(event: FMLCommonSetupEvent) {
+  event.enqueueWork {
+
+    // This is only in case certain notifications need to be gatekept
+    // i.e. require some research to be acquired etc.
+    // The resource locations are all just sample text and not real
+
+//    NotificationEventRegistry.register(
+//      ResourceLocation.fromNamespaceAndPath(Thavma.MODID, "opened_crystallography")
+//    ) { player ->
+//      // Gate on server state — if the player hasn't unlocked this, return null
+//      if (!player.persistentData.getBoolean("thavma.research.crystallography")) return@register null
+//      NotificationEventRegistry.NotifySpec(
+//        text  = Component.translatable("thavma.notif.opened_crystallography"),
+//        color = 0x44CCFF
+//      )
+//    }
+
+
+    NotificationEventRegistry.register(
+      ResourceLocation.fromNamespaceAndPath(Thavma.MODID, "test_notification_sync"), { _ ->
+        // No gate — always fires
+        NotificationEventRegistry.NotifySpec(
+          text = Component.translatable("thavma.notif.infusion_page"),
+          color = 0xCC44FF
+        )
+      })
+  }
+}
+
 private fun registerPayloadHandlers(event: RegisterPayloadHandlersEvent) {
   val registrar = event.registrar("1")
   registrar.playToClient(
@@ -185,6 +227,34 @@ private fun registerPayloadHandlers(event: RegisterPayloadHandlersEvent) {
     HammerPayload.STREAM_CODEC,
     HammerPayload::handle
   )
+  registrar.playToClient(
+    ShowNotificationPacket.TYPE,
+    ShowNotificationPacket.STREAM_CODEC,
+    ::handleShowNotification
+  )
+  registrar.playToServer(
+    ServerboundNotifyRequestPacket.TYPE,
+    ServerboundNotifyRequestPacket.STREAM_CODEC
+  ) { packet, context ->
+    val player = context.player() as? ServerPlayer ?: return@playToServer
+    context.enqueueWork {
+      // Unknown IDs return null and are silently dropped — no feedback to client,
+      // which prevents probing for valid event IDs
+      val spec = NotificationEventRegistry.resolve(packet.eventId, player) ?: return@enqueueWork
+      NotificationDispatcher.send(player, spec.text, spec.color, spec.image, spec.scale)
+    }
+  }
+  registrar.playToServer(
+    RequestHistoryPacket.TYPE,
+    RequestHistoryPacket.STREAM_CODEC,
+    ::handleHistoryRequest
+  )
+
+  registrar.playToClient(
+    RequestHistoryPacket.HistoryResponsePacket.TYPE,
+    RequestHistoryPacket.HistoryResponsePacket.STREAM_CODEC,
+    ::handleHistoryResponse
+  )
 }
 
 fun registerCommonModEvents() {
@@ -199,4 +269,21 @@ fun registerCommonModEvents() {
   KFF_MOD_BUS.addListener(::entityAttributeCreation)
   KFF_MOD_BUS.addListener(::registerSpawnPlacements)
   KFF_MOD_BUS.addListener(::registerPayloadHandlers)
+  KFF_MOD_BUS.addListener(::onCommonSetup)
+}
+
+@OnlyIn(Dist.CLIENT)
+private fun handleShowNotification(packet: ShowNotificationPacket, context: IPayloadContext) {
+  context.enqueueWork {
+    val player = Minecraft.getInstance().player ?: return@enqueueWork
+    PlayerNotifications.add(
+      text = packet.text,
+      player = player,
+      image = packet.image,
+      color = packet.color,
+      scale = packet.scale,
+      isPriority = true
+    )
+    // History was already recorded server-side — nothing to do here
+  }
 }

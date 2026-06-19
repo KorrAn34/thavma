@@ -2,6 +2,7 @@ package me.alegian.thavma.impl.init.registries.deferred
 
 import com.mojang.serialization.Codec
 import me.alegian.thavma.impl.Thavma
+import me.alegian.thavma.impl.client.gui.layer.NotificationHistory
 import me.alegian.thavma.impl.common.attachments.KnowledgeAttachment
 import me.alegian.thavma.impl.common.attachments.ScannedAttachment
 import net.neoforged.neoforge.attachment.AttachmentType
@@ -18,4 +19,8 @@ object T7Attachments {
   val LEVITATES = REGISTRAR.register("levitates") { -> AttachmentType.builder { -> false }.serialize(Codec.BOOL).build() }
 
   val ENDERPEARL_NO_DAMAGE = REGISTRAR.register("enderpearl_no_damage") { -> AttachmentType.builder { -> false }.serialize(Codec.BOOL).build() }
+
+  val NOTIFICATION_HISTORY = REGISTRAR.register("notification_history") { ->
+    AttachmentType.builder { -> NotificationHistory() }.serialize(NotificationHistory.CODEC).build()
+  }
 }
