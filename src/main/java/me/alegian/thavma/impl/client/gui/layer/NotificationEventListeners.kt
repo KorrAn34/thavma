@@ -13,6 +13,7 @@ import net.minecraft.world.level.biome.Biomes
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.common.EventBusSubscriber
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent
+import net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent
 import net.neoforged.neoforge.event.entity.player.PlayerXpEvent
 import net.neoforged.neoforge.event.tick.PlayerTickEvent
 import java.util.*
@@ -36,9 +37,9 @@ object NotificationEventListeners {
 
   // ── Item pickup ────────────────────────────────────────────────────────
   @SubscribeEvent
-  fun onItemPickup(event: EntityItemPickupEvent) {
-    val player = event.entity as? ServerPlayer ?: return
-    if (event.item.item.item == T7Items.BOOK.get()) {
+  fun onItemPickup(event: ItemEntityPickupEvent) {
+    val player = event.player as? ServerPlayer ?: return
+    if (event.itemEntity == T7Items.BOOK.get()) {
       NotificationDispatcher.send(
         player,
         Component.translatable("thavma.notif.found_crystal"),
@@ -65,7 +66,7 @@ object NotificationEventListeners {
     }
 
     // Biome transition — poll once per second to avoid spam
-    if (player.tickCount % 20 == 0) {
+    if (player.tickCount % 100 == 0) {
       val biomeKey = player.level()
         .getBiome(player.blockPosition())
         .unwrapKey().orElse(null) ?: return
@@ -83,6 +84,7 @@ object NotificationEventListeners {
 
     // Water contact — guard with persistent data to fire only on transition
     val wasInWater = player.persistentData.getBoolean("thavma.was_in_water")
+    //player.isEyeInFluidType()
     if (player.isInWater && !wasInWater) {
       NotificationDispatcher.send(
         player,
