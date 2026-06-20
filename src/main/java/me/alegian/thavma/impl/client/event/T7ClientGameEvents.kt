@@ -5,6 +5,8 @@ import me.alegian.thavma.impl.client.T7KeyMappings
 import me.alegian.thavma.impl.client.clientPlayerHasRevealing
 import me.alegian.thavma.impl.client.getClientPlayerEquipmentItem
 import me.alegian.thavma.impl.client.gui.foci.FociScreen
+import me.alegian.thavma.impl.client.gui.layer.ClientNotificationHistory
+import me.alegian.thavma.impl.client.gui.layer.PlayerNotifications
 import me.alegian.thavma.impl.client.gui.tooltip.AspectClientTooltipComponent
 import me.alegian.thavma.impl.client.gui.tooltip.AspectTooltipComponent
 import me.alegian.thavma.impl.client.gui.tooltip.containedAspectsComponents
@@ -22,7 +24,6 @@ import me.alegian.thavma.impl.common.item.WandItem.Companion.equippedFocus
 import me.alegian.thavma.impl.common.payload.FocusPayload
 import me.alegian.thavma.impl.common.scanning.hasScanned
 import me.alegian.thavma.impl.init.registries.deferred.T7Blocks
-import me.alegian.thavma.impl.init.registries.deferred.T7DataComponents
 import me.alegian.thavma.impl.init.registries.deferred.T7Items
 import net.minecraft.ChatFormatting
 import net.minecraft.client.Minecraft
@@ -32,10 +33,7 @@ import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.world.phys.HitResult
 import net.neoforged.api.distmarker.Dist
-import net.neoforged.neoforge.client.event.ClientTickEvent
-import net.neoforged.neoforge.client.event.RenderHighlightEvent
-import net.neoforged.neoforge.client.event.RenderLevelStageEvent
-import net.neoforged.neoforge.client.event.RenderPlayerEvent
+import net.neoforged.neoforge.client.event.*
 import net.neoforged.neoforge.client.event.RenderTooltipEvent.GatherComponents
 import net.neoforged.neoforge.network.PacketDistributor
 import thedarkcolour.kotlinforforge.neoforge.forge.DIST
@@ -153,6 +151,13 @@ private fun clientTick(event: ClientTickEvent.Post) {
     mc.setScreen(FociScreen())
 }
 
+private fun onLogout(event: ClientPlayerNetworkEvent.LoggingOut) {
+  event.player?.let {
+    PlayerNotifications.clearForPlayer(it, true)
+    ClientNotificationHistory.clear()
+  }
+}
+
 fun registerClientGameEvents() {
   if (DIST != Dist.CLIENT) return
 
@@ -165,4 +170,5 @@ fun registerClientGameEvents() {
   KFF_GAME_BUS.addListener(ExcavationRenderer::renderLevelAfterEntities)
   KFF_GAME_BUS.addListener(NodeAbsorbRenderer::renderLevelAfterEntities)
   KFF_GAME_BUS.addListener(::clientTick)
+  KFF_GAME_BUS.addListener(::onLogout)
 }

@@ -24,8 +24,10 @@ object RequestHistoryPacket : CustomPacketPayload {
   // Server handler for RequestHistoryPacket
   fun handleHistoryRequest(packet: RequestHistoryPacket, context: IPayloadContext) {
     val serverPlayer = context.player() as? ServerPlayer ?: return
-    val history = serverPlayer.getData(T7Attachments.NOTIFICATION_HISTORY)
-    PacketDistributor.sendToPlayer(serverPlayer, HistoryResponsePacket(history.entries.toList()))
+    context.enqueueWork {
+      val history = serverPlayer.getData(T7Attachments.NOTIFICATION_HISTORY)
+      PacketDistributor.sendToPlayer(serverPlayer, HistoryResponsePacket(history.entries.toList()))
+    }
   }
 
   // Server → Client response
@@ -46,9 +48,9 @@ object RequestHistoryPacket : CustomPacketPayload {
         )
 
       fun handleHistoryResponse(packet: HistoryResponsePacket, context: IPayloadContext) {
-        val serverPlayer = context.player() as? ServerPlayer ?: return
-        val history = serverPlayer.getData(T7Attachments.NOTIFICATION_HISTORY)
-        PacketDistributor.sendToPlayer(serverPlayer, HistoryResponsePacket(history.entries.toList()))
+        context.enqueueWork {
+          ClientNotificationHistory.update(packet.entries)
+        }
       }
     }
 
