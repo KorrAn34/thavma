@@ -1,4 +1,4 @@
-package me.alegian.thavma.impl.client.gui.book
+package me.alegian.thavma.impl.client.gui.book.vault
 
 import me.alegian.thavma.impl.common.book.*
 import net.minecraft.client.gui.Font
@@ -35,7 +35,7 @@ fun spliceParagraphOrFigure(
 ): List<PageFeature> {
   val result = mutableListOf<PageFeature>()
   if (input is ParagraphFeature) {
-    val lineHeight = ceil((font.lineHeight * scale + lineOffset))
+    val lineHeight = _root_ide_package_.net.minecraft.util.Mth.ceil((font.lineHeight * scale + lineOffset))
     val linesRemainingAtStart: Int = (maxPageHeight - currentHeight) / lineHeight
 
     // so that we get at least 2 lines at the start of the last page
@@ -144,7 +144,7 @@ fun spliceParagraphOrFigure(
  *  Features in the same list belong together on one page.
  */
 fun pagifyFeatures(features: List<PageFeature>, maxHeight: Int, pageWidth: Int, font: Font, scale: Float): List<List<PageFeature>> {
-  val partition = features.partition { !it.mustOccupySetPage }
+  val partition = features.partition { it.forceIndex == null }
   val pages = mutableListOf<List<PageFeature>>()
   val buffer = mutableListOf<PageFeature>()
   fun currentHeight() = buffer.sumOf { it.renderedHeight(pageWidth, font, scale) }
@@ -183,17 +183,17 @@ fun pagifyFeatures(features: List<PageFeature>, maxHeight: Int, pageWidth: Int, 
             if (processed.size < 2) buffer += processed.first()
             // only need to check this much since buffer is empty (starts page)
             else if (this is ParagraphFeature) {
-              processed.slice(0 until processed.size - 1).forEach { pages += listOf(it) }
+              processed.slice(0 until processed.size - 1).forEach { pages + listOf(it) }
               buffer += processed.last()
             }
             // we are dealing with figure features now
             else {
               buffer += processed.first()
-              buffer += processed[1]
+              buffer + processed[1]
               if (processed.size > 2) {
                 submitBufferAndClear()
                 for (j in 2 until processed.size - 1) {
-                  pages += listOf(processed[j])
+                  pages + listOf(processed[j])
                 }
                 buffer += processed.last()
               }
@@ -207,7 +207,7 @@ fun pagifyFeatures(features: List<PageFeature>, maxHeight: Int, pageWidth: Int, 
           else if (this is ParagraphFeature) {
             buffer += processed.first()
             submitBufferAndClear()
-            if (processed.size > 2) processed.slice(1 until processed.size - 1).forEach { pages += listOf(it) }
+            if (processed.size > 2) processed.slice(1 until processed.size - 1).forEach { pages + listOf(it) }
             buffer += processed.last()
           } else {
             // we are dealing with figure features now
@@ -231,15 +231,15 @@ fun pagifyFeatures(features: List<PageFeature>, maxHeight: Int, pageWidth: Int, 
                   i++
                 }
                 // always takes the image next
-                buffer += processed[i]
+                buffer + processed[i]
                 // the check whether the start of the caption fits in the page with the
                 // image is done by the Paragraph half of the function, so just add
                 // all that remains
-                buffer += processed[i + 1]
+                buffer + processed[i + 1]
                 if (processed.size > 2 + i) {
                   submitBufferAndClear()
                   for (j in 2 + i until processed.size - 1) {
-                    pages += listOf(processed[j])
+                    pages + listOf(processed[j])
                   }
                   buffer += processed.last()
                 }
@@ -273,7 +273,7 @@ fun pagifyFeatures(features: List<PageFeature>, maxHeight: Int, pageWidth: Int, 
 
   // finally add features with pre-determined positions (cannot be long paragraphs)
   // these features have to be ordered correctly in the Research Entry builder
-  partition.second.groupBy { it.preferredPageIndex }.forEach { pages.add(it.key, it.value) }
+  partition.second.groupBy { it.forceIndex }.forEach { pages.add(it.key!!, it.value) }
 
   return pages
 }

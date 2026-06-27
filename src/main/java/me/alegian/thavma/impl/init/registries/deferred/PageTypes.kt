@@ -2,8 +2,6 @@ package me.alegian.thavma.impl.init.registries.deferred
 
 import me.alegian.thavma.impl.Thavma
 import me.alegian.thavma.impl.common.book.CraftingPage
-import me.alegian.thavma.impl.common.book.DynamicPage
-import me.alegian.thavma.impl.common.book.PageFeature
 import me.alegian.thavma.impl.common.book.PageType
 import me.alegian.thavma.impl.common.book.TextPage
 import me.alegian.thavma.impl.init.registries.T7Registries

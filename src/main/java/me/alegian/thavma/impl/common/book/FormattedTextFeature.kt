@@ -11,8 +11,6 @@ class FormattedTextFeature(val text: List<FormattedCharSequence>) : PageFeature 
     get() = false
   override val mustStartPage: Boolean
     get() = false
-  override val mustOccupySetPage: Boolean
-    get() = false
 
   override val type: PageFeatureType<*>
     get() = PageFeatureTypes.FORMATTED.get()

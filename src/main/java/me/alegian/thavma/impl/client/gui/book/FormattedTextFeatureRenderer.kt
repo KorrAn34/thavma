@@ -10,9 +10,10 @@ import me.alegian.thavma.impl.client.util.usePose
 import me.alegian.thavma.impl.common.book.FormattedTextFeature
 import net.minecraft.client.gui.Font
 import net.minecraft.client.gui.components.Renderable
-import net.minecraft.util.Mth.ceil
 
 object FormattedTextFeatureRenderer : PageFeatureRenderer<FormattedTextFeature> {
+
+  // Not using scale currently
   override fun initPageFeature(
     screen: EntryScreen,
     feature: FormattedTextFeature,
@@ -20,7 +21,7 @@ object FormattedTextFeatureRenderer : PageFeatureRenderer<FormattedTextFeature> 
     font: Font,
     scale: Float
   ) {
-    val LINE_HEIGHT = ceil((font.lineHeight * scale + 2))
+    val LINE_HEIGHT = font.lineHeight + lineOffset
 
     Row({
       width = grow()
@@ -28,11 +29,13 @@ object FormattedTextFeatureRenderer : PageFeatureRenderer<FormattedTextFeature> 
     }) {
       relativeRenderable {
         Renderable { guiGraphics, _, _, _ ->
-          guiGraphics.pose().scale(scale, scale, 1.0f)
+          // Not using scale currently
+          //guiGraphics.pose().scale(scale, scale, 1.0f)
           guiGraphics.usePose {
             for (line in feature.text) {
               guiGraphics.drawString(font, line)
-              translateXY(0, LINE_HEIGHT / scale)
+              //translateXY(0, LINE_HEIGHT / scale)
+              translateXY(0, LINE_HEIGHT)
             }
             translateXY(0, LINE_HEIGHT * 2 / 3)
           }

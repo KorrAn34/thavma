@@ -10,7 +10,7 @@
   "pageFeatures": [
     {
       "type": "thavma:title",
-      "starts_page": true,
+      "must_start_page": true,
       "text": {
         "bold": true,
         "translate": "research/entry.thavma.story.story1.title_feature0"
@@ -52,14 +52,14 @@
     },
     {
       "type": "thavma:paragraph",
-      "starts_page": true,
+      "must_start_page": true,
       "text": {
         "translate": "research/entry.thavma.story.story1.paragraph_feature2"
       }
     },
     {
       "type": "thavma:title",
-      "starts_page": true,
+      "must_start_page": true,
       "text": {
         "bold": true,
         "translate": "research/entry.thavma.story.story1.title_feature2"
@@ -67,9 +67,8 @@
     },
     {
       "type": "thavma:title",
-      "has_set_page": true,
-      "preferred_page": 0,
-      "starts_page": true,
+      "force_index": 0,
+      "must_start_page": true,
       "text": {
         "bold": true,
         "translate": "research/entry.thavma.story.story1.title_feature3"
@@ -83,20 +82,18 @@
     },
     {
       "type": "thavma:figure",
-      "has_set_page": true,
+      "force_index": 5,
       "image": {
         "canvas_height": 77,
         "canvas_width": 87,
         "height": 77,
         "location": "thavma:textures/gui/images/smileyface.png",
         "width": 87
-      },
-      "preferred_page": 5
+      }
     },
     {
       "type": "thavma:paragraph",
-      "has_set_page": true,
-      "preferred_page": 5,
+      "force_index": 5,
       "text": {
         "translate": "research/entry.thavma.story.story1.paragraph_feature4"
       }

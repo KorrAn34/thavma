@@ -137,16 +137,25 @@ class T7DatapackBuiltinEntriesProvider(output: PackOutput, registries: Completab
         ResearchEntryBuilder(ResearchEntries.Story.STORY1, Vector2i(0, 0), false, Items.TURTLE_HELMET.defaultInstance)
           .research()
           .addPageFeature(makeTitleFeature())
-          .addPageFeature(makeParagraphFeature(false, false))
+          .addPageFeature(makeParagraphFeature(false))
           .addPageFeature(makeParagraphFeature())
-          .addPageFeature(makeFigureFeature(Texture("gui/images/haybales", 180, 101, 180, 101), true, false, false, 1, ChatFormatting.DARK_AQUA, ChatFormatting.ITALIC))
+          .addPageFeature(
+            makeFigureFeature(
+              Texture("gui/images/haybales", 180, 101, 180, 101),
+              true,
+              false,
+              null,
+              ChatFormatting.DARK_AQUA,
+              ChatFormatting.ITALIC
+            )
+          )
           .addPageFeature(makeTitleFeature(false))
           .addPageFeature(makeParagraphFeature(true))
-          .addPageFeature(makeTitleFeature(true, false))
-          .addPageFeature(makeTitleFeature(true, true, 0))
+          .addPageFeature(makeTitleFeature(true))
+          .addPageFeature(makeTitleFeature(true, 0))
           .addPageFeature(makeParagraphFeature())
-          .addPageFeature(makeFigureFeature(Texture("gui/images/smileyface", 87, 77, 87, 77), false, false, true, 5))
-          .addPageFeature(makeParagraphFeature(false, true, 5))
+          .addPageFeature(makeFigureFeature(Texture("gui/images/smileyface", 87, 77, 87, 77), false, false, 5))
+          .addPageFeature(makeParagraphFeature(false, 5))
           .defaultKnown()
           .build(ctx)
 
@@ -336,22 +345,20 @@ private fun simpleTextPage(paragraphCount: Int, hasTitle: Boolean): (ResourceKey
 
 private fun makeParagraphFeature(
   mustStartPage: Boolean = false,
-  mustOccupySetPage: Boolean = false,
-  preferredPageIndex: Int = 1
+  forceIndex: Int? = null
 ): (ResourceKey<ResearchEntry>, Int) -> ParagraphFeature {
   return { entryKey, paragraphIndex ->
     val baseId = ResearchEntry.translationId(entryKey)
     ParagraphFeature(
       Component.translatable(ParagraphFeature.translationId(baseId, paragraphIndex)),
-      mustStartPage, mustOccupySetPage, preferredPageIndex
+      mustStartPage, forceIndex
     )
   }
 }
 
 private fun makeStyledParagraphFeature(
   mustStartPage: Boolean = false,
-  mustOccupySetPage: Boolean = false,
-  preferredPageIndex: Int = 1,
+  forceIndex: Int? = null,
   vararg styles: ChatFormatting?
 ): (ResourceKey<ResearchEntry>, Int) -> ParagraphFeature {
   return { entryKey, paragraphIndex ->
@@ -364,20 +371,19 @@ private fun makeStyledParagraphFeature(
         }
       }
     }
-    ParagraphFeature(content, mustStartPage, mustOccupySetPage, preferredPageIndex)
+    ParagraphFeature(content, mustStartPage, forceIndex)
   }
 }
 
 private fun makeTitleFeature(
   mustStartPage: Boolean = true,
-  mustOccupySetPage: Boolean = false,
-  preferredPageIndex: Int = 1
+  forceIndex: Int? = null
 ): (ResourceKey<ResearchEntry>, Int) -> TitleFeature {
   return { entryKey, titleIndex ->
     val baseId = ResearchEntry.translationId(entryKey)
     TitleFeature(
       Component.translatable(TitleFeature.translationId(baseId, titleIndex)).withStyle(ChatFormatting.BOLD),
-      mustStartPage, mustOccupySetPage, preferredPageIndex
+      mustStartPage, forceIndex
     )
   }
 }
@@ -386,8 +392,7 @@ private fun makeFigureFeature(
   image: Texture,
   giveCaption: Boolean,
   mustStartPage: Boolean = false,
-  mustOccupySetPage: Boolean = false,
-  preferredPageIndex: Int = 1,
+  forceIndex: Int? = null,
   vararg styles: ChatFormatting?
 ): (ResourceKey<ResearchEntry>, Int) -> FigureFeature {
   return if (giveCaption) { entryKey, figureIndex ->
@@ -400,9 +405,9 @@ private fun makeFigureFeature(
         }
       }
     }
-    FigureFeature(image, content, mustStartPage, mustOccupySetPage, preferredPageIndex)
+    FigureFeature(image, content, mustStartPage, forceIndex)
   } else { _, _ ->
-    FigureFeature(image, null, mustStartPage, mustOccupySetPage, preferredPageIndex)
+    FigureFeature(image, null, mustStartPage, forceIndex)
   }
 }
 
@@ -410,13 +415,11 @@ private fun makeRecipeFeature(
   recipeRL: ResourceLocation,
   coversOneWholePage: Boolean = true,
   mustStartPage: Boolean = true,
-  mustOccupySetPage: Boolean = false,
-  preferredPageIndex: Int = 1
+  forceIndex: Int? = null
 ): (ResourceKey<ResearchEntry>, Int) -> RecipeFeature {
   return { _, _ ->
     RecipeFeature(
-      recipeRL, coversOneWholePage, mustStartPage, mustOccupySetPage,
-      preferredPageIndex
+      recipeRL, coversOneWholePage, mustStartPage, forceIndex
     )
   }
 }

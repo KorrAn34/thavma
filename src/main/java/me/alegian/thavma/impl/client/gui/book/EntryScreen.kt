@@ -23,9 +23,9 @@ class EntryScreen(entry: Holder<ResearchEntry>) : Screen(Component.literal("Book
   var maxWidth = 0
   private var maxHeightCorrection = 0
 
+  // Not using scale currently
   private val scale = 1f
 
-  // maxHeight is height of background texture minus padding (32 top 42 bottom)
   var pages = listOf<List<PageFeature>>()
 
   override fun init() {

@@ -8,11 +8,11 @@ import me.alegian.thavma.impl.client.util.usePose
 import me.alegian.thavma.impl.common.book.TitleFeature
 import net.minecraft.client.gui.Font
 import net.minecraft.client.gui.components.Renderable
-import net.minecraft.util.Mth.ceil
 
 object TitleFeatureRenderer : PageFeatureRenderer<TitleFeature> {
   private val SEPARATOR = Texture("gui/book/separator", 128, 16, 128, 16)
 
+  // Not using scale currently
   override fun initPageFeature(
     screen: EntryScreen,
     feature: TitleFeature,
@@ -36,20 +36,25 @@ object TitleFeatureRenderer : PageFeatureRenderer<TitleFeature> {
   private fun Title(title: TitleFeature, maxwidth: Int, font: Font, scale: Float) {
     val lines = font.split(title.text, maxwidth)
 
+    // Not using scale currently
     Row({
       width = grow()
-      height = fixed(ceil((font.lineHeight * scale + lineOffset)) * lines.size)
+      //height = fixed(ceil((font.lineHeight * scale + lineOffset)) * lines.size)
+      height = fixed((font.lineHeight + lineOffset) * lines.size)
     }) {
       relativeRenderable {
         Renderable { guiGraphics, _, _, _ ->
-          guiGraphics.pose().scale(scale, scale, 1.0f)
+          // Not using scale currently
+          //guiGraphics.pose().scale(scale, scale, 1.0f)
           guiGraphics.usePose {
             val lines = font.split(title.text, size.x.toInt())
             for ((index, line) in lines.withIndex()) {
               guiGraphics.drawCenteredString(
-                font, line, size.x / scale / 2
+                //font, line, size.x / scale / 2
+                font, line, size.x / 2
               )
-              if (index != lines.size - 1) translateXY(0, ceil((font.lineHeight * scale + 2)) / scale)
+              //if (index != lines.size - 1) translateXY(0, ceil((font.lineHeight * scale + lineOffset)) / scale)
+              if (index != lines.size - 1) translateXY(0, font.lineHeight + lineOffset)
             }
           }
         }

@@ -19,6 +19,7 @@ object RecipeFeatureRenderer : PageFeatureRenderer<RecipeFeature> {
   private val TITLE = Component.translatable(RecipeType.CRAFTING.translationId)
   private const val GAP = 12
 
+  // Not using scale currently
   override fun initPageFeature(screen: EntryScreen, feature: RecipeFeature, maxWidth: Int, font: Font, scale: Float) {
     val recipe = Minecraft.getInstance().level?.recipeManager?.byKey(feature.recipeRL)?.getOrNull()?.value
     if (recipe !is CraftingRecipe) return // TODO: support other recipe types
@@ -29,7 +30,7 @@ object RecipeFeatureRenderer : PageFeatureRenderer<RecipeFeature> {
       size = grow()
       gap = GAP
     }) {
-      Title()
+      Title(scale)
 
       TextureBox(RESULT) {}
 
@@ -37,7 +38,7 @@ object RecipeFeatureRenderer : PageFeatureRenderer<RecipeFeature> {
     }
   }
 
-  private fun Title() {
+  private fun Title(scale: Float) {
     val font = Minecraft.getInstance().font
 
     Row({
@@ -46,8 +47,14 @@ object RecipeFeatureRenderer : PageFeatureRenderer<RecipeFeature> {
       relativeRenderable {
         Renderable { guiGraphics, _, _, _ ->
           val lines = font.split(TITLE, size.x.toInt())
-          for (line in lines)
-            guiGraphics.drawCenteredString(font, line, size.x / 2)
+          // Not using scale currently
+          //guiGraphics.pose().scale(scale, scale, 1.0f)
+          for (line in lines) {
+            guiGraphics.drawCenteredString(
+              //font, line, size.x / scale / 2
+              font, line, size.x / 2
+            )
+          }
         }
       }
     }

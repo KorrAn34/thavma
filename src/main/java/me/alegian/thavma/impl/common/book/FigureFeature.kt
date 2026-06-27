@@ -12,8 +12,7 @@ class FigureFeature(
   val image: Texture,
   val caption: Component?,
   override val mustStartPage: Boolean = false,
-  override val mustOccupySetPage: Boolean = false,
-  override val preferredPageIndex: Int = 1
+  override val forceIndex: Int? = null
 ) : PageFeature {
   override val type: PageFeatureType<*>
     get() = PageFeatureTypes.FIGURE.get()
@@ -21,7 +20,7 @@ class FigureFeature(
   override val coversOneWholePage = false
 
   override fun toString(): String {
-    return "FigureFeature with caption $caption, mustOccupySetPage set to $mustOccupySetPage and preferred page index $preferredPageIndex"
+    return "FigureFeature with caption $caption and preferred page index $forceIndex"
   }
 
   val textureHeight = image.height
@@ -32,10 +31,9 @@ class FigureFeature(
         Texture.CODEC.fieldOf("image").forGetter(FigureFeature::image),
         ComponentSerialization.CODEC.optionalFieldOf("caption").forGetter { p -> Optional.ofNullable(p.caption) },
         Codec.BOOL.optionalFieldOf("must_start_page", false).forGetter(FigureFeature::mustStartPage),
-        Codec.BOOL.optionalFieldOf("must_occupy_set_page", false).forGetter(FigureFeature::mustOccupySetPage),
-        Codec.INT.optionalFieldOf("preferred_page_index", 1).forGetter(FigureFeature::preferredPageIndex)
-      ).apply(builder) { img, cap, start, index, pref ->
-        FigureFeature(img, cap.orElse(null), start, index, pref)
+        Codec.INT.optionalFieldOf("force_index", null).forGetter(FigureFeature::forceIndex)
+      ).apply(builder) { img, cap, start, index ->
+        FigureFeature(img, cap.orElse(null), start, index)
       }
     }
 
