@@ -6,8 +6,10 @@ import net.minecraft.util.Mth.ceil
 import net.minecraft.util.Mth.floor
 import kotlin.math.min
 
+const val lineOffset: Int = 2
+
 private fun PageFeature.renderedHeight(pageWidth: Int, font: Font, scale: Float): Int {
-  val lineHeight = ceil((font.lineHeight * scale) + 2)
+  val lineHeight = ceil((font.lineHeight * scale) + lineOffset)
   return when (this) {
     is ParagraphFeature -> font.split(this.text, floor(pageWidth/scale)).size * lineHeight
     is TitleFeature -> font.split(this.text, (pageWidth/scale).toInt()).size * lineHeight + 16
@@ -33,7 +35,7 @@ fun spliceParagraphOrFigure(
 ): List<PageFeature> {
   val result = mutableListOf<PageFeature>()
   if (input is ParagraphFeature) {
-    val lineHeight = ceil((font.lineHeight  * scale + 2))
+    val lineHeight = ceil((font.lineHeight * scale + lineOffset))
     val linesRemainingAtStart: Int = (maxPageHeight - currentHeight) / lineHeight
 
     // so that we get at least 2 lines at the start of the last page

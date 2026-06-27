@@ -33,18 +33,18 @@ object TitleFeatureRenderer : PageFeatureRenderer<TitleFeature> {
     }
   }
 
-  private fun Title(title: TitleFeature, maxWidth: Int, font: Font, scale: Float) {
-
-    val lines = font.split(title.text, (maxWidth / scale).toInt())
+  private fun Title(title: TitleFeature, maxwidth: Int, font: Font, scale: Float) {
+    val lines = font.split(title.text, maxwidth)
 
     Row({
       width = grow()
-      height = fixed(ceil((font.lineHeight * scale + 2)) * lines.size)
+      height = fixed(ceil((font.lineHeight * scale + lineOffset)) * lines.size)
     }) {
       relativeRenderable {
         Renderable { guiGraphics, _, _, _ ->
           guiGraphics.pose().scale(scale, scale, 1.0f)
           guiGraphics.usePose {
+            val lines = font.split(title.text, size.x.toInt())
             for ((index, line) in lines.withIndex()) {
               guiGraphics.drawCenteredString(
                 font, line, size.x / scale / 2

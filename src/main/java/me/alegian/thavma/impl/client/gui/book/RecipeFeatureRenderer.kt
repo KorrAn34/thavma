@@ -29,7 +29,7 @@ object RecipeFeatureRenderer : PageFeatureRenderer<RecipeFeature> {
       size = grow()
       gap = GAP
     }) {
-      Title(screen.maxWidth)
+      Title()
 
       TextureBox(RESULT) {}
 
@@ -37,7 +37,7 @@ object RecipeFeatureRenderer : PageFeatureRenderer<RecipeFeature> {
     }
   }
 
-  private fun Title(maxWidth: Int) {
+  private fun Title() {
     val font = Minecraft.getInstance().font
 
     Row({
@@ -45,7 +45,7 @@ object RecipeFeatureRenderer : PageFeatureRenderer<RecipeFeature> {
     }) {
       relativeRenderable {
         Renderable { guiGraphics, _, _, _ ->
-          val lines = font.split(TITLE, maxWidth)
+          val lines = font.split(TITLE, size.x.toInt())
           for (line in lines)
             guiGraphics.drawCenteredString(font, line, size.x / 2)
         }
