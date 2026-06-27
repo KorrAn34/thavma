@@ -38,8 +38,6 @@ object RequestHistoryPacket : CustomPacketPayload {
         ResourceLocation.fromNamespaceAndPath(Thavma.MODID, "history_response")
       )
 
-      // Entry.STREAM_CODEC now exists, so .apply(ByteBufCodecs.list()) resolves,
-      // the getter and factory types are unambiguous, and composite can infer B
       val STREAM_CODEC: StreamCodec<ByteBuf, HistoryResponsePacket> =
         StreamCodec.composite(
           NotificationHistory.Entry.STREAM_CODEC.apply(ByteBufCodecs.list()),

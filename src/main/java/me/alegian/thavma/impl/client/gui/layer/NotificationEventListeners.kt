@@ -37,7 +37,7 @@ object NotificationEventListeners {
 
   // ── Item pickup ────────────────────────────────────────────────────────
   @SubscribeEvent
-  fun onItemPickup(event: ItemEntityPickupEvent) {
+  fun onItemPickup(event: ItemEntityPickupEvent.Post) {
     val player = event.player as? ServerPlayer ?: return
     if (event.itemEntity == T7Items.BOOK.get()) {
       NotificationDispatcher.send(
