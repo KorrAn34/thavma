@@ -23,13 +23,13 @@ object TextPageRenderer : PageRenderer<TextPage> {
       gap = 4
     }) {
       if (page.title != null) {
-        Title(page.title, screen.maxWidth)
+        Title(page.title)
         Separator()
       }
       Row({
         size = grow()
       }) {
-        relativeRenderable {
+        draw {
           Renderable { guiGraphics, _, _, _ ->
             guiGraphics.usePose {
               for (paragraph in page.paragraphs) {
@@ -55,18 +55,16 @@ object TextPageRenderer : PageRenderer<TextPage> {
     }
   }
 
-  private fun Title(text: Component, maxWidth: Int) {
+  private fun Title(text: Component) {
     val font = Minecraft.getInstance().font
 
     Row({
       width = grow()
       height = fixed(font.lineHeight)
     }) {
-      relativeRenderable {
+      draw {
         Renderable { guiGraphics, _, _, _ ->
-          val lines = font.split(text, maxWidth)
-          for (line in lines)
-            guiGraphics.drawCenteredString(font, line, size.x / 2)
+          guiGraphics.drawCenteredString(font, text, size.x / 2)
         }
       }
     }
