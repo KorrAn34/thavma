@@ -1,9 +1,9 @@
 package me.alegian.thavma.impl.client.gui.book
 
 import me.alegian.thavma.impl.client.gui.layout.Row
+import me.alegian.thavma.impl.client.gui.layout.draw
 import me.alegian.thavma.impl.client.gui.layout.fixed
 import me.alegian.thavma.impl.client.gui.layout.grow
-import me.alegian.thavma.impl.client.gui.layout.relativeRenderable
 import me.alegian.thavma.impl.client.util.drawString
 import me.alegian.thavma.impl.client.util.translateXY
 import me.alegian.thavma.impl.client.util.usePose
@@ -28,13 +28,13 @@ object ParagraphFeatureRenderer : PageFeatureRenderer<ParagraphFeature> {
       width = grow()
       height = fixed(LINE_HEIGHT * (lines.size + 0.5f))
     }) {
-      relativeRenderable {
+      draw {
         Renderable { guiGraphics, _, _, _ ->
           // Not using scale currently
           // guiGraphics.pose().scale(scale, scale, 1.0f)
           guiGraphics.usePose {
-            //for (line in font.split(feature.text, maxWidth)) {
-            for (line in font.split(feature.text, (maxWidth / scale).toInt())) {
+            for (line in font.split(feature.text, maxWidth)) {
+              //for (line in font.split(feature.text, (maxWidth / scale).toInt())) {
               guiGraphics.drawString(font, line)
               //translateXY(0, LINE_HEIGHT / scale)
               translateXY(0, LINE_HEIGHT)

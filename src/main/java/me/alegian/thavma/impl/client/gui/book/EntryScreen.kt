@@ -19,10 +19,6 @@ class EntryScreen(entry: Holder<ResearchEntry>) : Screen(Component.literal("Book
   private val fontify = Minecraft.getInstance().font
   private val entry = entry.value()
 
-  private var maxWidthCorrection = 0
-  var maxWidth = 0
-  private var maxHeightCorrection = 0
-
   // Not using scale currently
   private val scale = 1f
 
@@ -31,8 +27,6 @@ class EntryScreen(entry: Holder<ResearchEntry>) : Screen(Component.literal("Book
   override fun init() {
     super.init()
     clearWidgets()
-    maxWidthCorrection = 0
-    maxHeightCorrection = 0
 
     LayoutExtensions.currScreen = this
     Row({
@@ -51,8 +45,6 @@ class EntryScreen(entry: Holder<ResearchEntry>) : Screen(Component.literal("Book
             paddingX = 32
             paddingBottom = 42
             gap = 48
-            maxWidthCorrection += 2 * paddingX.toInt()
-            maxHeightCorrection += 2 * paddingY.toInt() + paddingBottom.toInt() - 8
           }) {
             Row({
               size = grow()
@@ -61,18 +53,28 @@ class EntryScreen(entry: Holder<ResearchEntry>) : Screen(Component.literal("Book
                 size = grow()
                 gap = 4
               }) {
-                maxWidth = BG.width / 2 - maxWidthCorrection
-                if (pages.isEmpty()) pages = pagifyFeatures(
-                  entry.pageFeatures,
-                  BG.height - maxHeightCorrection,
-                  maxWidth,
-                  fontify,
-                  scale
-                )
-                val features = pages.getOrNull(currentPage)
-                if (features != null) {
-                  for (feature in features) initPageFeature(feature)
+                afterLayout {
+                  if (pages.isEmpty()) pages = pagifyFeatures(
+                    entry.pageFeatures,
+                    this@afterLayout.size.y.toInt(),
+                    this@afterLayout.size.x.toInt(),
+                    fontify,
+                    scale
+                  )
+                  val features = pages.getOrNull(currentPage)
+                  if (features != null) {
+                    for (feature in features) initPageFeature(feature, this@afterLayout.size.x.toInt())
+                  }
                 }
+//                maxWidth = BG.width / 2 - maxWidthCorrection
+//                if (pages.isEmpty()) pages = pagifyFeatures(
+//                  entry.pageFeatures,
+//                  BG.height - maxHeightCorrection,
+//                  maxWidth,
+//                  fontify,
+//                  scale
+//                )
+
               }
             }
 
@@ -83,9 +85,11 @@ class EntryScreen(entry: Holder<ResearchEntry>) : Screen(Component.literal("Book
                 size = grow()
                 gap = 4
               }) {
-                val features = pages.getOrNull(currentPage + 1)
-                if (features != null) {
-                  for (feature in features) initPageFeature(feature)
+                afterLayout {
+                  val features = pages.getOrNull(currentPage + 1)
+                  if (features != null) {
+                    for (feature in features) initPageFeature(feature, this@afterLayout.size.x.toInt())
+                  }
                 }
               }
             }
@@ -143,10 +147,11 @@ class EntryScreen(entry: Holder<ResearchEntry>) : Screen(Component.literal("Book
   }
 
   // wrapper around... unchecked cast
-  private fun <T : PageFeature?> initPageFeature(feature: T) {
+  private fun <T : PageFeature?> initPageFeature(feature: T, maxWidth: Int) {
     if (feature != null) {
       val renderer = PAGE_FEATURE_RENDERERS[feature.type] as PageFeatureRenderer<T>
-      renderer.initPageFeature(this, feature, BG.width / 2 - maxWidthCorrection, fontify, scale)
+      // Not using scale currently
+      renderer.initPageFeature(this, feature, maxWidth, fontify, scale)
     }
   }
 

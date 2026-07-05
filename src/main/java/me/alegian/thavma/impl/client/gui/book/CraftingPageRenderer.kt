@@ -3,6 +3,8 @@ package me.alegian.thavma.impl.client.gui.book
 import me.alegian.thavma.impl.client.gui.layout.*
 import me.alegian.thavma.impl.client.texture.Texture
 import me.alegian.thavma.impl.client.util.drawCenteredString
+import me.alegian.thavma.impl.client.util.translateXY
+import me.alegian.thavma.impl.client.util.usePose
 import me.alegian.thavma.impl.common.book.CraftingPage
 import me.alegian.thavma.impl.common.recipe.translationId
 import net.minecraft.client.Minecraft
@@ -43,7 +45,18 @@ object CraftingPageRenderer : PageRenderer<CraftingPage> {
     }) {
       draw {
         Renderable { guiGraphics, _, _, _ ->
-          guiGraphics.drawCenteredString(font, TITLE, size.x / 2)
+          val lines = font.split(TITLE, size.x.toInt())
+          // Not using scale currently
+          //guiGraphics.pose().scale(scale, scale, 1.0f)
+          guiGraphics.usePose {
+            for ((index, line) in lines.withIndex()) {
+              guiGraphics.drawCenteredString(
+                //font, line, size.x / scale / 2
+                font, line, size.x / 2
+              )
+              if (index != lines.lastIndex) translateXY(0, font.lineHeight + lineOffset)
+            }
+          }
         }
       }
     }

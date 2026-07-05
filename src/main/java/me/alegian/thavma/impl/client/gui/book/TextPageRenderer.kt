@@ -16,7 +16,7 @@ object TextPageRenderer : PageRenderer<TextPage> {
 
   override fun initPage(screen: EntryScreen, page: TextPage) {
     val font = Minecraft.getInstance().font
-    val LINE_HEIGHT = font.lineHeight + 2
+    val LINE_HEIGHT = font.lineHeight + lineOffset
 
     Column({
       size = grow()
@@ -34,7 +34,7 @@ object TextPageRenderer : PageRenderer<TextPage> {
             guiGraphics.usePose {
               for (paragraph in page.paragraphs) {
                 for (line in font.split(paragraph, size.x.toInt())) {
-                  guiGraphics.drawString(Minecraft.getInstance().font, line)
+                  guiGraphics.drawString(font, line)
                   translateXY(0, LINE_HEIGHT)
                 }
                 translateXY(0, LINE_HEIGHT * 2 / 3)
@@ -64,7 +64,18 @@ object TextPageRenderer : PageRenderer<TextPage> {
     }) {
       draw {
         Renderable { guiGraphics, _, _, _ ->
-          guiGraphics.drawCenteredString(font, text, size.x / 2)
+          val lines = font.split(text, size.x.toInt())
+          // Not using scale currently
+          //guiGraphics.pose().scale(scale, scale, 1.0f)
+          guiGraphics.usePose {
+            for ((index, line) in lines.withIndex()) {
+              guiGraphics.drawCenteredString(
+                //font, line, size.x / scale / 2
+                font, line, size.x / 2
+              )
+              if (index != lines.lastIndex) translateXY(0, font.lineHeight + lineOffset)
+            }
+          }
         }
       }
     }

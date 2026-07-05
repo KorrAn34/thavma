@@ -10,9 +10,30 @@ object PageFeatureTypes {
   val REGISTRAR = DeferredRegister.create(T7Registries.PAGE_FEATURE_TYPE.key(), Thavma.MODID)
 
   val PARAGRAPH =
-    REGISTRAR.register("paragraph") { -> PageFeatureType<ParagraphFeature>(rl("paragraph"), ParagraphFeature.CODEC) }
-  val FORMATTED = REGISTRAR.register("formatted") { -> PageFeatureType(rl("formatted"), FormattedTextFeature.CODEC) }
-  val TITLE = REGISTRAR.register("title") { -> PageFeatureType<TitleFeature>(rl("title"), TitleFeature.CODEC) }
-  val FIGURE = REGISTRAR.register("figure") { -> PageFeatureType<FigureFeature>(rl("figure"), FigureFeature.CODEC) }
-  val RECIPE = REGISTRAR.register("recipe") { -> PageFeatureType<RecipeFeature>(rl("recipe"), RecipeFeature.CODEC) }
+    REGISTRAR.register("paragraph_feature") { ->
+      PageFeatureType<ParagraphFeature>(
+        rl("paragraph_feature"),
+        ParagraphFeature.CODEC
+      )
+    }
+  val FORMATTED = REGISTRAR.register("formatted_text_feature") { ->
+    PageFeatureType(
+      rl("formatted_text_feature"),
+      FormattedTextFeature.CODEC
+    )
+  }
+  val TITLE =
+    REGISTRAR.register("title_feature") { -> PageFeatureType<TitleFeature>(rl("title_feature"), TitleFeature.CODEC) }
+  val FIGURE = REGISTRAR.register("figure_feature") { ->
+    PageFeatureType<FigureFeature>(
+      rl("figure_feature"),
+      FigureFeature.CODEC
+    )
+  }
+  val RECIPE = REGISTRAR.register("recipe_feature") { ->
+    PageFeatureType<RecipeFeature>(
+      rl("recipe_feature"),
+      RecipeFeature.CODEC
+    )
+  }
 }

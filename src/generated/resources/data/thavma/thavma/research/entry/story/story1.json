@@ -9,7 +9,7 @@
   },
   "pageFeatures": [
     {
-      "type": "thavma:title",
+      "type": "thavma:title_feature",
       "must_start_page": true,
       "text": {
         "bold": true,
@@ -17,19 +17,19 @@
       }
     },
     {
-      "type": "thavma:paragraph",
+      "type": "thavma:paragraph_feature",
       "text": {
         "translate": "research/entry.thavma.story.story1.paragraph_feature0"
       }
     },
     {
-      "type": "thavma:paragraph",
+      "type": "thavma:paragraph_feature",
       "text": {
         "translate": "research/entry.thavma.story.story1.paragraph_feature1"
       }
     },
     {
-      "type": "thavma:figure",
+      "type": "thavma:figure_feature",
       "caption": {
         "color": "dark_aqua",
         "italic": true,
@@ -44,21 +44,21 @@
       }
     },
     {
-      "type": "thavma:title",
+      "type": "thavma:title_feature",
       "text": {
         "bold": true,
         "translate": "research/entry.thavma.story.story1.title_feature1"
       }
     },
     {
-      "type": "thavma:paragraph",
+      "type": "thavma:paragraph_feature",
       "must_start_page": true,
       "text": {
         "translate": "research/entry.thavma.story.story1.paragraph_feature2"
       }
     },
     {
-      "type": "thavma:title",
+      "type": "thavma:title_feature",
       "must_start_page": true,
       "text": {
         "bold": true,
@@ -66,7 +66,7 @@
       }
     },
     {
-      "type": "thavma:title",
+      "type": "thavma:title_feature",
       "force_index": 0,
       "must_start_page": true,
       "text": {
@@ -75,13 +75,13 @@
       }
     },
     {
-      "type": "thavma:paragraph",
+      "type": "thavma:paragraph_feature",
       "text": {
         "translate": "research/entry.thavma.story.story1.paragraph_feature3"
       }
     },
     {
-      "type": "thavma:figure",
+      "type": "thavma:figure_feature",
       "force_index": 5,
       "image": {
         "canvas_height": 77,
@@ -92,7 +92,7 @@
       }
     },
     {
-      "type": "thavma:paragraph",
+      "type": "thavma:paragraph_feature",
       "force_index": 5,
       "text": {
         "translate": "research/entry.thavma.story.story1.paragraph_feature4"

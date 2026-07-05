@@ -42,7 +42,7 @@ object TitleFeatureRenderer : PageFeatureRenderer<TitleFeature> {
       //height = fixed(ceil((font.lineHeight * scale + lineOffset)) * lines.size)
       height = fixed((font.lineHeight + lineOffset) * lines.size)
     }) {
-      relativeRenderable {
+      draw {
         Renderable { guiGraphics, _, _, _ ->
           // Not using scale currently
           //guiGraphics.pose().scale(scale, scale, 1.0f)
@@ -54,7 +54,7 @@ object TitleFeatureRenderer : PageFeatureRenderer<TitleFeature> {
                 font, line, size.x / 2
               )
               //if (index != lines.size - 1) translateXY(0, ceil((font.lineHeight * scale + lineOffset)) / scale)
-              if (index != lines.size - 1) translateXY(0, font.lineHeight + lineOffset)
+              if (index != lines.lastIndex) translateXY(0, font.lineHeight + lineOffset)
             }
           }
         }

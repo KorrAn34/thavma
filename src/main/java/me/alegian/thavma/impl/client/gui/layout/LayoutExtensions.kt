@@ -46,7 +46,7 @@ fun draw(getRenderable: T7LayoutElement.() -> Renderable) {
     screen.renderables.add(Renderable { guiGraphics, mouseX, mouseY, partialTick ->
       guiGraphics.usePose {
         translateXY(position.x, position.y)
-        renderable.render(guiGraphics, mouseX, mouseY, partialTick)
+        getRenderable(this@afterLayout).render(guiGraphics, mouseX, mouseY, partialTick)
       }
     })
   }
