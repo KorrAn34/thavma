@@ -18,16 +18,7 @@ import me.alegian.thavma.impl.common.research.ResearchEntry
 import me.alegian.thavma.impl.common.wand.WandCoreMaterial
 import me.alegian.thavma.impl.common.wand.WandPlatingMaterial
 import me.alegian.thavma.impl.init.registries.T7Tags
-import me.alegian.thavma.impl.init.registries.deferred.Aspects
-import me.alegian.thavma.impl.init.registries.deferred.T7Blocks
-import me.alegian.thavma.impl.init.registries.deferred.T7Items
-import me.alegian.thavma.impl.init.registries.deferred.T7EntityTypes
-import me.alegian.thavma.impl.init.registries.deferred.ResearchEntries
-import me.alegian.thavma.impl.init.registries.deferred.ResearchCategories
-import me.alegian.thavma.impl.init.registries.deferred.T7Attributes
-import me.alegian.thavma.impl.init.registries.deferred.T7RecipeTypes
-import me.alegian.thavma.impl.init.registries.deferred.WandCoreMaterials
-import me.alegian.thavma.impl.init.registries.deferred.WandPlatingMaterials
+import me.alegian.thavma.impl.init.registries.deferred.*
 import me.alegian.thavma.impl.integration.RecipeViewerAliases
 import me.alegian.thavma.impl.integration.RecipeViewerDescriptions
 import net.minecraft.Util
@@ -166,6 +157,7 @@ class T7LanguageProvider(output: PackOutput, locale: String) : LanguageProvider(
     add(T7Blocks.SILVERWOOD_LEAVES.get(), "Silverwood Leaves")
     add(T7Blocks.SILVERWOOD_PLANKS.get(), "Silverwood Planks")
     add(T7Blocks.SILVERWOOD_SAPLING.get(), "Silverwood Sapling")
+    add(T7Blocks.INVERTED_BLOCK.get(), "Inverted Block")
 
     add(T7Blocks.SEALING_JAR.get(), "Sealing Jar")
     add(T7Items.NODE_JAR.get(), "Node in a Jar")

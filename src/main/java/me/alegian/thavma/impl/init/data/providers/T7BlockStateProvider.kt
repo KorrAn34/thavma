@@ -21,10 +21,11 @@ import me.alegian.thavma.impl.init.registries.deferred.T7Blocks.GREATWOOD_PLANKS
 import me.alegian.thavma.impl.init.registries.deferred.T7Blocks.GREATWOOD_SAPLING
 import me.alegian.thavma.impl.init.registries.deferred.T7Blocks.GREATWOOD_SLAB
 import me.alegian.thavma.impl.init.registries.deferred.T7Blocks.GREATWOOD_STAIRS
-import me.alegian.thavma.impl.init.registries.deferred.T7Blocks.HUNGRY_CHEST
 import me.alegian.thavma.impl.init.registries.deferred.T7Blocks.HOLE
+import me.alegian.thavma.impl.init.registries.deferred.T7Blocks.HUNGRY_CHEST
 import me.alegian.thavma.impl.init.registries.deferred.T7Blocks.INFUSED_DEEPSLATES
 import me.alegian.thavma.impl.init.registries.deferred.T7Blocks.INFUSED_STONES
+import me.alegian.thavma.impl.init.registries.deferred.T7Blocks.INVERTED_BLOCK
 import me.alegian.thavma.impl.init.registries.deferred.T7Blocks.ITEM_HATCH
 import me.alegian.thavma.impl.init.registries.deferred.T7Blocks.MATRIX
 import me.alegian.thavma.impl.init.registries.deferred.T7Blocks.ORICHALCUM_BLOCK
@@ -83,6 +84,7 @@ class T7BlockStateProvider(output: PackOutput, exFileHelper: ExistingFileHelper)
     simpleBlockWithItem(GREATWOOD_PLANKS.get())
     leavesBlockWithItem(GREATWOOD_LEAVES.get())
     saplingBlockWithItem(GREATWOOD_SAPLING.get())
+    simpleBlockWithItem(INVERTED_BLOCK.get())
 
     logBlockWithItem(SILVERWOOD_LOG.get())
     simpleBlockWithItem(SILVERWOOD_PLANKS.get())

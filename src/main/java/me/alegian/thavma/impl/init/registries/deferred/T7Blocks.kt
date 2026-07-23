@@ -69,6 +69,8 @@ object T7Blocks {
     "greatwood_sapling"
   ) { sapling(GreatwoodTree.GROWER) }
 
+  val INVERTED_BLOCK = register("inverted_block", ::plank)
+
   val SILVERWOOD_LEAVES = register(
     "silverwood_leaves",
     ::leaves

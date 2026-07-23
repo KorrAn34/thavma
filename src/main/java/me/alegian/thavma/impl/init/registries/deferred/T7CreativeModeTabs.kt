@@ -21,6 +21,7 @@ import me.alegian.thavma.impl.init.registries.deferred.T7Blocks.GREATWOOD_STAIRS
 import me.alegian.thavma.impl.init.registries.deferred.T7Blocks.HUNGRY_CHEST
 import me.alegian.thavma.impl.init.registries.deferred.T7Blocks.INFUSED_DEEPSLATES
 import me.alegian.thavma.impl.init.registries.deferred.T7Blocks.INFUSED_STONES
+import me.alegian.thavma.impl.init.registries.deferred.T7Blocks.INVERTED_BLOCK
 import me.alegian.thavma.impl.init.registries.deferred.T7Blocks.ITEM_HATCH
 import me.alegian.thavma.impl.init.registries.deferred.T7Blocks.MATRIX
 import me.alegian.thavma.impl.init.registries.deferred.T7Blocks.ORICHALCUM_BLOCK
@@ -91,6 +92,7 @@ object T7CreativeModeTabs {
           output.accept(GREATWOOD_STAIRS.get())
           output.accept(GREATWOOD_SLAB.get())
           output.accept(GREATWOOD_SAPLING.get())
+          output.accept(INVERTED_BLOCK.get())
 
           output.accept(SILVERWOOD_LEAVES.get())
           output.accept(SILVERWOOD_SAPLING.get())

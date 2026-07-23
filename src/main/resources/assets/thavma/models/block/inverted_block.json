@@ -1,0 +1,42 @@
+{
+  "parent": "block/block",
+  "render_type": "minecraft:cutout_mipped",
+  "textures": {
+    "inner": "thavma:block/greatwood_planks",
+    "particle": "thavma:block/greatwood_planks"
+  },
+  "elements": [
+    {
+      "from": [
+        16,
+        16,
+        16
+      ],
+      "to": [
+        0,
+        0,
+        0
+      ],
+      "faces": {
+        "up": {
+          "texture": "#inner"
+        },
+        "down": {
+          "texture": "#inner"
+        },
+        "north": {
+          "texture": "#inner"
+        },
+        "south": {
+          "texture": "#inner"
+        },
+        "east": {
+          "texture": "#inner"
+        },
+        "west": {
+          "texture": "#inner"
+        }
+      }
+    }
+  ]
+}
