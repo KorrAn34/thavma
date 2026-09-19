@@ -47,9 +47,9 @@
     },
     "firstperson_righthand": {
       "rotation": [
-        -45,
-        270,
-        -45
+        0,
+        180,
+        0
       ],
       "translation": [
         -9,
@@ -82,7 +82,7 @@
     "gui": {
       "rotation": [
         0,
-        270,
+        0,
         0
       ],
       "scale": [
