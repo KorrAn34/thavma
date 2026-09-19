@@ -47,9 +47,9 @@
     },
     "firstperson_righthand": {
       "rotation": [
-        90,
-        45,
-        0
+        -45,
+        270,
+        -45
       ],
       "translation": [
         -9,
@@ -64,8 +64,8 @@
     },
     "firstperson_lefthand": {
       "rotation": [
-        90,
-        -45,
+        0,
+        270,
         0
       ],
       "translation": [
@@ -81,8 +81,8 @@
     },
     "gui": {
       "rotation": [
-        90,
         0,
+        270,
         0
       ],
       "scale": [
@@ -96,6 +96,11 @@
         0.6,
         0.6,
         0.6
+      ],
+      "rotation": [
+        0,
+        0,
+        90
       ]
     },
     "fixed": {
