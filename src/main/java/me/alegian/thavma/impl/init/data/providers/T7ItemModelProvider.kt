@@ -2,7 +2,6 @@ package me.alegian.thavma.impl.init.data.providers
 
 import me.alegian.thavma.impl.Thavma
 import me.alegian.thavma.impl.init.registries.T7ItemProperties
-import me.alegian.thavma.impl.init.registries.deferred.T7Blocks
 import me.alegian.thavma.impl.init.registries.deferred.T7Items
 import me.alegian.thavma.impl.init.registries.deferred.T7Items.ANGRY_ZOMBIE_SPAWN_EGG
 import me.alegian.thavma.impl.init.registries.deferred.T7Items.APPRENTICE_BOOTS
@@ -47,7 +46,6 @@ import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.data.PackOutput
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.level.ItemLike
-import net.minecraft.world.level.block.Block
 import net.neoforged.neoforge.client.model.generators.ItemModelBuilder
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider
 import net.neoforged.neoforge.client.model.generators.ModelFile
@@ -116,6 +114,8 @@ class T7ItemModelProvider(output: PackOutput, existingFileHelper: ExistingFileHe
     handheldItem(THAVMITE_HOE)
 
     handheldItem(T7Items.AXE_OF_THE_FOREST)
+
+    handheldItem(T7Items.THAVMOMETER)
 
     for (shard in SHARDS.values) item(shard, rl("item/shard"))
 
