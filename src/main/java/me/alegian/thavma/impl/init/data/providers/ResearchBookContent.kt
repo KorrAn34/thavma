@@ -568,7 +568,7 @@ internal object ResearchBookContent {
       ),
       paragraph(
         """
-        A universal uproar burst out in an instant. Men and women stabbed, slashed and crushed and were being stabbed, slashed and crushed with hopes that someone might rise back up after a lethal blow. Screaming and whimpering pierced the heavens to the extent that even the gods upon the holy mountain were shaken down to the marrow of their immortal bones. The arena was flooded in scarlet and when only a few survivors remained, they scattered so as not to meet anyone else and along the way slaughter all men, women, children and animals they encountered. The city armoury was littered with more bodies than weapons and fewer limbs than bodies, as many massacre participants thought it of utmost importance to verify the validity of their results. Nevertheless, bloodthirstiness eventually led all beating hearts back to the square where the final showdown ensued. The second-to-last unfortunate individual thrust a sickle into the last one’s abdomen and she slit his throat in return. They fell to the ground and with a varying zeal sailed to the other side of the dark river.
+        A universal uproar burst out in an instant. Men and women stabbed, slashed and crushed and were being stabbed, slashed and crushed with hopes that someone might rise back up after a lethal blow. Screaming and whimpering pierced the heavens to the extent that even the gods upon the holy mountain were shaken down to the marrow of their immortal bones. The arena was flooded in scarlet and when only a few survivors remained, they scattered so as not to meet anyone else and along the way slaughter all men, women, children and animals they encountered. The city armoury was littered with more bodies than weapons and fewer limbs than bodies, as many massacre participants thought it of utmost importance to verify the validity of their results. Nevertheless, bloodthirstiness eventually led all beating hearts back to the town square where the final showdown ensued. The second-to-last unfortunate individual thrust a sickle into the last one’s abdomen and she slit his throat in return. They fell to the ground and with a varying zeal sailed to the other side of the dark river.
       """
       ),
       paragraph(
@@ -681,7 +681,7 @@ internal object ResearchBookContent {
     }
   }
 
-  fun placeholders() = placeholders.map { TRANSLATION_PLACEHOLDERS + placeholderSubstring(it) to it }
+  fun placeholders() = placeholders.associate { TRANSLATION_PLACEHOLDERS + placeholderSubstring(it) to it }
 }
 
 private val TRANSLATION_PLACEHOLDERS = "translation_placeholders." + Thavma.MODID + "."
