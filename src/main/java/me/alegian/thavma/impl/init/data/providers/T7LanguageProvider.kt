@@ -194,7 +194,11 @@ class T7LanguageProvider(output: PackOutput, locale: String) : LanguageProvider(
     addCategory(ResearchCategories.ALCHEMY, "Alchemy")
     addEntry(ResearchEntries.Alchemy.ALCHEMY, "Alchemy")
 
+    addCategory(ResearchCategories.LORE, "???")
+    addEntry(ResearchEntries.Lore.MYTH, "From the Heart's Eclipsed Depths")
+
     for ((translationId, text) in ResearchBookContent.translations()) add(translationId, text)
+    for ((translationId, text) in ResearchBookContent.placeholders()) add(translationId, text)
 
     add(T7Items.RESEARCH_SCROLL.get().completedTranslation(), "Completed Research")
     add(ResearchEntry.TOAST_TRANSLATION, "Research Complete!")

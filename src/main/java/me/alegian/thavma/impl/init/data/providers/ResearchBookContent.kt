@@ -1,18 +1,18 @@
 package me.alegian.thavma.impl.init.data.providers
 
+import me.alegian.thavma.impl.Thavma
 import me.alegian.thavma.impl.client.texture.Texture
-import me.alegian.thavma.impl.common.book.FigureFeature
-import me.alegian.thavma.impl.common.book.PageBreakFeature
-import me.alegian.thavma.impl.common.book.PageFeature
-import me.alegian.thavma.impl.common.book.ParagraphFeature
-import me.alegian.thavma.impl.common.book.TitleFeature
+import me.alegian.thavma.impl.common.book.*
 import me.alegian.thavma.impl.common.research.ResearchEntry
 import me.alegian.thavma.impl.init.registries.deferred.ResearchEntries
 import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.MutableComponent
+import net.minecraft.network.chat.Style
 import net.minecraft.resources.ResourceKey
 
 internal object ResearchBookContent {
+  val PLACEHOLDERS = "placeholders." + Thavma.MODID + "."
   private val contentByEntry = mapOf(
     ResearchEntries.Thavma.THAVMA to listOf(
       title("Thavma"),
@@ -69,6 +69,32 @@ internal object ResearchBookContent {
         "An image of the infusion altar",
       ),
     ),
+    ResearchEntries.Lore.MYTH to listOf(
+      title("From the Heart's Eclipsed Depths"),
+      paragraph(
+        """
+        Once the symposium partakers have each had their fill of wine and nestle in their seats of the andron, one of them crieth: “O 
+        didaskale
+        , day and night do we ponder the quintessential mysteries of the world, pay thorough mind to man’s doom and mind no scrutiny of our own judgement, yet the unhiddenness most simple eludeth us. What is, in truth, love? In waking and dreaming we see the truth of love all around and follow the path of love unto true knowledge. Thus, why may we not capture the essence of the thing, or more-than-thing?”
+      """, Style.EMPTY.withItalic(true)
+      ),
+      paragraph(
+        """
+        The master casteth his gaze over the sea into the distance. He answereth that love is a thing most simple indeed, though her faces hardly can enumerate he who sifteth gold out of sand grain by grain.
+      """, Style.EMPTY.withItalic(true)
+      ),
+      paragraph(
+        """
+        “But is there no saving grace for him who seeketh sense therein? Dost thou know of a fable that in the blink of an eye illuminateth the shadow of doubt?” asketh another.
+      """, Style.EMPTY.withItalic(true)
+      ),
+      paragraph(
+        """
+        The sage confesseth that such might outnumber the night velvet’s pearls, and still one resoundeth stubbornly in his mind’s ear.
+      """, Style.EMPTY.withItalic(true)
+      ),
+      paragraph("“Tarry no longer, speak!”", Style.EMPTY.withItalic(true))
+    )
   )
 
   fun featuresFor(entryKey: ResourceKey<ResearchEntry>): List<PageFeature> =
@@ -84,6 +110,8 @@ internal object ResearchBookContent {
       }
     }
   }
+
+  fun placeholders():
 }
 
 private class FeatureDefinition(
@@ -97,8 +125,9 @@ private fun title(text: String) = FeatureDefinition(text.normalize()) { translat
   TitleFeature(Component.translatable(translationId).withStyle(ChatFormatting.BOLD))
 }
 
-private fun paragraph(text: String) = FeatureDefinition(text.normalize()) { translationId ->
-  ParagraphFeature(Component.translatable(translationId))
+private fun paragraph(text: String, styles: Style = Style.EMPTY, vararg placeholders: MutableComponent = emptyArray()) =
+  FeatureDefinition(text.normalize()) { translationId ->
+    ParagraphFeature(separateComponentStyles(translationId, styles, *placeholders))
 }
 
 private fun pageBreak() = FeatureDefinition(null) { PageBreakFeature() }
@@ -109,3 +138,18 @@ private fun figure(image: Texture, width: Int, height: Int, caption: String? = n
   }
 
 private fun String.normalize() = trimIndent().replace("\n", " ")
+
+private val NO_FORMAT = Style.EMPTY
+  .withBold(false)
+  .withItalic(false)
+  .withUnderlined(false)
+  .withStrikethrough(false)
+  .withObfuscated(false)
+  .withColor(0x000000)
+
+/** Creates a copy of the component that ignores any text formatting inherited from its parent. */
+private fun Component.unformatted(): MutableComponent =
+  copy().setStyle(style.applyTo(NO_FORMAT))
+
+fun separateComponentStyles(key: String, baseStyle: Style, vararg placeholders: Component) =
+  Component.translatable(key, *placeholders.map { it.unformatted() }.toTypedArray()).setStyle(baseStyle)
