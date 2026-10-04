@@ -171,6 +171,7 @@
   "research/entry.thavma.lore.sea_myth": "From the Heart's Eclipsed Depths",
   "research/entry.thavma.lore.sea_myth.feature0": "From the Heart's Eclipsed Depths",
   "research/entry.thavma.lore.sea_myth.feature1": "Once the symposium partakers have each had their fill of wine and nestle in their seats of the andron, one of them crieth: “O %1$s, day and night do we ponder the quintessential mysteries of the world, pay thorough mind to man’s doom and mind no scrutiny of our own judgement, yet the unhiddenness most simple eludeth us. What is, in truth, love? In waking and dreaming we see the truth of love all around and follow the path of love unto true knowledge. Thus, why may we not capture the essence of the thing, or more-than-thing?”",
+  "research/entry.thavma.lore.sea_myth.feature1-%1$s": "didaskale",
   "research/entry.thavma.lore.sea_myth.feature10": "And so, the day once again arrived when one unfortunate individual would either have to satisfy the voraciousness with which time crushes rocks, or chisel themselves eternally into the rock-hard tablets of history.",
   "research/entry.thavma.lore.sea_myth.feature100": "“You valiant boy, who charred your sky? ",
   "research/entry.thavma.lore.sea_myth.feature101": "A fraud whose lies they wouldn’t buy? ",
@@ -190,6 +191,7 @@
   "research/entry.thavma.lore.sea_myth.feature114": "",
   "research/entry.thavma.lore.sea_myth.feature115": "I saw all this with my own eyes;",
   "research/entry.thavma.lore.sea_myth.feature116": "%1$s – or just a dream",
+  "research/entry.thavma.lore.sea_myth.feature116-%1$s": "But then a sight",
   "research/entry.thavma.lore.sea_myth.feature117": "Comes hurling down like trains of thought",
   "research/entry.thavma.lore.sea_myth.feature118": "On rails of steel from ages lost",
   "research/entry.thavma.lore.sea_myth.feature119": "– some other time.",
@@ -239,6 +241,7 @@
   "research/entry.thavma.lore.sea_myth.feature159": "The innocent query feels colder than ice. How…? “Because… because someone else who… is also immortal… visited you, answered your nine questions and left, even if… I still don’t know what the first question was.” ",
   "research/entry.thavma.lore.sea_myth.feature16": "“Your father too was all muscle, sweat and implacable stubbornness.” She took a deep breath in. “You remind me of him so. Though to what end did this serve him, when but a memory he left of himself for good long ago, and how would I alone conduct myself without you in the wide world? Who shall soothe me when times are tough? Should your face be bathed in brine today, it will be for the last time. Do not go.”",
   "research/entry.thavma.lore.sea_myth.feature160": "“What does it matter? I mean… %1$s last question: You’ve established some other immortal citizen’s been here and given true answers. So why have I not left the city and swum away?”",
+  "research/entry.thavma.lore.sea_myth.feature160-%1$s": "Ehm,",
   "research/entry.thavma.lore.sea_myth.feature161": "I come to understand the despicable duplicity of her who swore nothing: “You monster, you don’t follow any rules, you just want to sate your wrath and spread sorrow!”",
   "research/entry.thavma.lore.sea_myth.feature162": "The monster swiftly strengthens her grip, starts to shake me about and tells me off: “You liar, how dare you talk to me like this? Don’t you see that not even Atropos herself can cut your life’s thread? Your immortality is clear evidence of both your and my truthfulness, but it doesn’t prevent me from washing that dirty mouth of yours! But then you could hardly keep answering and we’d likely be stuck here forever, well, not that I’m objecting. Again, why have I not left the city?”",
   "research/entry.thavma.lore.sea_myth.feature163": "“Because… because… but it doesn’t make any sense…” Another shake unbridles my imagination. “So, the other immortal secretly passed your test and returned to the surface, but turned out to be a dangerous sadist who spread a false belief that you would only leave the city once someone accomplishes what he did. You’ve been searching for them this whole time as being immortal yourself means you’re the only one to be able to resolve this, but to no avail. People on the surface can’t hear your voice, so you couldn’t have informed them of your intention. The traitor revels in the bloodshed and agony they’ve been causing in the meantime and won’t stop until everyone is dead,” I reel off my explanation.",
@@ -315,6 +318,7 @@
   "research/entry.thavma.lore.sea_myth.feature49": "“Seventh: Is the sentence ‘This sentence is false.’ true?”",
   "research/entry.thavma.lore.sea_myth.feature5": "“Tarry no longer, speak!”",
   "research/entry.thavma.lore.sea_myth.feature50": "%1$s What? But that doesn't make… this can’t be… true…! If the sentence is false, then it can’t admit its mendacity, and if it’s true, it can’t contradict it, but in both cases it doesn’t make any sense.",
+  "research/entry.thavma.lore.sea_myth.feature50-%1$s": "My head surges with thoughts.",
   "research/entry.thavma.lore.sea_myth.feature51": "I start jerking and jolting and strive to free myself from the unbreakable clasp until complete exhaustion, but in vain. I myself confirmed that I may not leave here alive without answering all questions. Shuddering, I cock my head backwards and look up in supplication where I am greeted by a glaring nothingness. I am lost like tears in rain, and my own salty rain is now dispersing into oblivion in the briny cradle of all life where I am to follow in a few moments.",
   "research/entry.thavma.lore.sea_myth.feature52": "Silence. From emptiness, the world collapses into inexistence, and I am carried away on waves of infinity. My consciousness is abraded again and again by the same thought. Have I ever lived outside the monster’s grasp? The events preceding this moment suddenly seem like a misty dream. That’s it, the world on the surface was my dream, I have now woken up and nothing awaits me, only death. In the dream I felt joy, sadness, pleasure and loss, but none of it was real. During my descent I reached an awakening and the reality revealed itself to me as it would to no one else, because no one else ever truly lived. I am myself.",
   "research/entry.thavma.lore.sea_myth.feature53": "And with this notion memories are flooding back, or perhaps old-new dreams are surfacing, as if my impending consonance with all sea currents kicked my mind into full gear so that it may for the last time savour the incredibly organised interplay of others possessed of the potential to cleave the living by both sword and word, to admire, intimidate, ridicule and regret, or carry out the action most indispensable, to grow numb, sleep and in the mind’s eye conjure things so intimately precious, or so also some of which one previously had no inkling.",
@@ -400,9 +404,5 @@
   "tag.item.thavma.wand_cores": "Wand Cores",
   "tag.item.thavma.wand_platings": "Wand Platings",
   "thavma": "Thavma",
-  "tooltipthavma.not_scanned": "Not Scanned",
-  "translation_placeholders.thavma.sea_myth_feature116^But_then_a_sight": "But then a sight",
-  "translation_placeholders.thavma.sea_myth_feature160^Ehm,": "Ehm,",
-  "translation_placeholders.thavma.sea_myth_feature1^didaskale": "didaskale",
-  "translation_placeholders.thavma.sea_myth_feature50^My_head_surges_with_thoughts_": "My head surges with thoughts."
+  "tooltipthavma.not_scanned": "Not Scanned"
 }

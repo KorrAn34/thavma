@@ -1,13 +1,10 @@
 package me.alegian.thavma.impl.init.data.providers
 
-import me.alegian.thavma.impl.Thavma
 import me.alegian.thavma.impl.client.texture.Texture
 import me.alegian.thavma.impl.common.book.*
 import me.alegian.thavma.impl.common.research.ResearchEntry
-import me.alegian.thavma.impl.init.registries.T7DatapackRegistries
 import me.alegian.thavma.impl.init.registries.deferred.ResearchEntries
 import net.minecraft.ChatFormatting
-import net.minecraft.Util
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.network.chat.Style
@@ -663,7 +660,6 @@ internal object ResearchBookContent {
     )
   )
 
-
   fun featuresFor(entryKey: ResourceKey<ResearchEntry>): List<PageFeature> =
     contentByEntry[entryKey].orEmpty().mapIndexed { index, feature ->
       feature.create(PageFeature.translationId(ResearchEntry.translationId(entryKey), index))
@@ -674,45 +670,15 @@ internal object ResearchBookContent {
       val baseId = ResearchEntry.translationId(entryKey)
       features.forEachIndexed { index, feature ->
         feature.text?.let { put(PageFeature.translationId(baseId, index), it) }
-      }
-    }
-  }
-
-  fun assemblePlaceholders(): Map<String, String> = buildMap {
-    for ((entryKey, features) in contentByEntry) {
-      val baseId =
-        Util.makeDescriptionId(T7DatapackRegistries.TRANSLATION_PLACEHOLDER.location().path, entryKey.location())
-      features.forEachIndexed { index, feature ->
         if (feature.placeholders.isNotEmpty()) {
           feature.placeholders.forEachIndexed { number, string ->
-            string.let {
-              put(
-                baseId + "_" + "feature" + index + "-" + number + ">" + it.take(32).replace(' ', '_').replace('.', '_'),
-                it
-              )
-            }
+            string.let { put(PageFeature.translationId(baseId, index) + "-%${number + 1}\$s", it) }
           }
         }
       }
-      //val baseId = TranslationPlaceholder.translationId(entryKey)
-      //fun placeholderId(key: ResourceKey<ResearchEntry>) = Util.makeDescriptionId(T7DatapackRegistries.TRANSLATION_PLACEHOLDER.location().path, key.location())
     }
   }
-
-  val placeholders = listOf(
-    "sea_myth_feature1^didaskale",
-    "sea_myth_feature50^My head surges with thoughts.",
-    "sea_myth_feature116^But then a sight",
-    "sea_myth_feature160^Ehm,"
-  )
-
-  fun placeholders() = placeholders.associate { TRANSLATION_PLACEHOLDERS + placeholderId(it) to placeholderText(it) }
 }
-
-private val TRANSLATION_PLACEHOLDERS = "translation_placeholders." + Thavma.MODID + "."
-private fun placeholderText(input: String) = input.split('^').last()
-private fun placeholderId(input: String) =
-  input.split('^').first() + "^" + input.split('^').last().take(32).replace(' ', '_').replace('.', '_')
 
 private class FeatureDefinition(
   val text: String?,
@@ -731,10 +697,8 @@ private fun paragraph(
   style: Style = Style.EMPTY,
   vararg placeholders: Pair<String, Style> = emptyArray()
 ) = FeatureDefinition(text.normalize(), placeholders.map { it.first }) { translationId ->
-  ParagraphFeature(separateComponentStyles(translationId, style, *placeholders.map {
-    Component.translatable(
-      TRANSLATION_PLACEHOLDERS + placeholderId(it.first)
-    ).setStyle(it.second)
+  ParagraphFeature(separateComponentStyles(translationId, style, *placeholders.mapIndexed { index, placeholder ->
+    Component.translatable("$translationId-%${index + 1}\$s").setStyle(placeholder.second)
   }.toTypedArray()))
 }
 

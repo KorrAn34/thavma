@@ -27,7 +27,7 @@
             "italic": false,
             "obfuscated": false,
             "strikethrough": false,
-            "translate": "translation_placeholders.thavma.didaskale^didaskale",
+            "translate": "research/entry.thavma.lore.sea_myth.feature1-%1$s",
             "underlined": false
           }
         ]
@@ -339,7 +339,7 @@
             "italic": false,
             "obfuscated": false,
             "strikethrough": false,
-            "translate": "translation_placeholders.thavma.My head surges with thoughts.^My_head_surges_with_thoughts_",
+            "translate": "research/entry.thavma.lore.sea_myth.feature50-%1$s",
             "underlined": false
           }
         ]
@@ -748,7 +748,7 @@
             "italic": false,
             "obfuscated": false,
             "strikethrough": false,
-            "translate": "translation_placeholders.thavma.But then a sight^But_then_a_sight",
+            "translate": "research/entry.thavma.lore.sea_myth.feature116-%1$s",
             "underlined": false
           }
         ]
@@ -1056,7 +1056,7 @@
             "italic": true,
             "obfuscated": false,
             "strikethrough": false,
-            "translate": "translation_placeholders.thavma.Ehm,^Ehm,",
+            "translate": "research/entry.thavma.lore.sea_myth.feature160-%1$s",
             "underlined": false
           }
         ]
