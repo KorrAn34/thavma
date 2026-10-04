@@ -230,7 +230,7 @@ class T7DatapackBuiltinEntriesProvider(output: PackOutput, registries: Completab
           .build(ctx)
 
         ResearchEntryBuilder(
-          ResearchEntries.Lore.MYTH,
+          ResearchEntries.Lore.SEA_MYTH,
           Vector2i(0, 0),
           false,
           Items.TURTLE_HELMET.defaultInstance

@@ -1,5 +1,6 @@
 package me.alegian.thavma.impl.common.event
 
+import me.alegian.thavma.impl.common.book.TranslationPlaceholder
 import me.alegian.thavma.impl.common.entity.AngryZombieEntity
 import me.alegian.thavma.impl.common.payload.*
 import me.alegian.thavma.impl.common.research.ResearchCategory
@@ -45,6 +46,10 @@ private fun registerRegistries(event: NewRegistryEvent) {
 private fun registerDatapackRegistries(event: DataPackRegistryEvent.NewRegistry) {
   event.dataPackRegistry(T7DatapackRegistries.RESEARCH_CATEGORY, ResearchCategory.CODEC, ResearchCategory.CODEC)
   event.dataPackRegistry(T7DatapackRegistries.RESEARCH_ENTRY, ResearchEntry.CODEC, ResearchEntry.CODEC)
+  event.dataPackRegistry(
+    T7DatapackRegistries.TRANSLATION_PLACEHOLDER, TranslationPlaceholder.CODEC,
+    TranslationPlaceholder.CODEC
+  )
 }
 
 private fun modifyRegistries(event: ModifyRegistriesEvent) {

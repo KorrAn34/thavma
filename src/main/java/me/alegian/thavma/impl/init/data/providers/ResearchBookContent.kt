@@ -4,8 +4,10 @@ import me.alegian.thavma.impl.Thavma
 import me.alegian.thavma.impl.client.texture.Texture
 import me.alegian.thavma.impl.common.book.*
 import me.alegian.thavma.impl.common.research.ResearchEntry
+import me.alegian.thavma.impl.init.registries.T7DatapackRegistries
 import me.alegian.thavma.impl.init.registries.deferred.ResearchEntries
 import net.minecraft.ChatFormatting
+import net.minecraft.Util
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.network.chat.Style
@@ -68,13 +70,11 @@ internal object ResearchBookContent {
         "An image of the infusion altar",
       ),
     ),
-    ResearchEntries.Lore.MYTH to listOf(
+    ResearchEntries.Lore.SEA_MYTH to listOf(
       title("From the Heart's Eclipsed Depths"),
       paragraph(
         $$"""
-        Once the symposium partakers have each had their fill of wine and nestle in their seats of the andron, one of them crieth: “O 
-        %1$s
-        , day and night do we ponder the quintessential mysteries of the world, pay thorough mind to man’s doom and mind no scrutiny of our own judgement, yet the unhiddenness most simple eludeth us. What is, in truth, love? In waking and dreaming we see the truth of love all around and follow the path of love unto true knowledge. Thus, why may we not capture the essence of the thing, or more-than-thing?”
+        Once the symposium partakers have each had their fill of wine and nestle in their seats of the andron, one of them crieth: “O %1$s, day and night do we ponder the quintessential mysteries of the world, pay thorough mind to man’s doom and mind no scrutiny of our own judgement, yet the unhiddenness most simple eludeth us. What is, in truth, love? In waking and dreaming we see the truth of love all around and follow the path of love unto true knowledge. Thus, why may we not capture the essence of the thing, or more-than-thing?”
       """, Style.EMPTY.withItalic(true), "didaskale" to Style.EMPTY
       ),
       paragraph(
@@ -475,9 +475,7 @@ internal object ResearchBookContent {
       ),
       paragraph(
         $$"""
-        “What does it matter? I mean… 
-        %1$s 
-        last question: You’ve established some other immortal citizen’s been here and given true answers. So why have I not left the city and swum away?”
+        “What does it matter? I mean… %1$s last question: You’ve established some other immortal citizen’s been here and given true answers. So why have I not left the city and swum away?”
       """, Style.EMPTY, "Ehm," to Style.EMPTY.withItalic(true)
       ),
       paragraph(
@@ -665,7 +663,6 @@ internal object ResearchBookContent {
     )
   )
 
-  val placeholders = listOf("didaskale", "My head surges with thoughts.", "But then a sight", "Ehm,")
 
   fun featuresFor(entryKey: ResourceKey<ResearchEntry>): List<PageFeature> =
     contentByEntry[entryKey].orEmpty().mapIndexed { index, feature ->
@@ -681,14 +678,45 @@ internal object ResearchBookContent {
     }
   }
 
-  fun placeholders() = placeholders.associate { TRANSLATION_PLACEHOLDERS + placeholderSubstring(it) to it }
+  fun assemblePlaceholders(): Map<String, String> = buildMap {
+    for ((entryKey, features) in contentByEntry) {
+      val baseId =
+        Util.makeDescriptionId(T7DatapackRegistries.TRANSLATION_PLACEHOLDER.location().path, entryKey.location())
+      features.forEachIndexed { index, feature ->
+        if (feature.placeholders.isNotEmpty()) {
+          feature.placeholders.forEachIndexed { number, string ->
+            string.let {
+              put(
+                baseId + "_" + "feature" + index + "-" + number + ">" + it.take(32).replace(' ', '_').replace('.', '_'),
+                it
+              )
+            }
+          }
+        }
+      }
+      //val baseId = TranslationPlaceholder.translationId(entryKey)
+      //fun placeholderId(key: ResourceKey<ResearchEntry>) = Util.makeDescriptionId(T7DatapackRegistries.TRANSLATION_PLACEHOLDER.location().path, key.location())
+    }
+  }
+
+  val placeholders = listOf(
+    "sea_myth_feature1^didaskale",
+    "sea_myth_feature50^My head surges with thoughts.",
+    "sea_myth_feature116^But then a sight",
+    "sea_myth_feature160^Ehm,"
+  )
+
+  fun placeholders() = placeholders.associate { TRANSLATION_PLACEHOLDERS + placeholderId(it) to placeholderText(it) }
 }
 
 private val TRANSLATION_PLACEHOLDERS = "translation_placeholders." + Thavma.MODID + "."
-private fun placeholderSubstring(input: String) = input.take(20).replace(' ', '_').replace('.', '_')
+private fun placeholderText(input: String) = input.split('^').last()
+private fun placeholderId(input: String) =
+  input.split('^').first() + "^" + input.split('^').last().take(32).replace(' ', '_').replace('.', '_')
 
 private class FeatureDefinition(
   val text: String?,
+  val placeholders: List<String> = emptyList(),
   val factory: (String) -> PageFeature,
 ) {
   fun create(translationId: String) = factory(translationId)
@@ -702,13 +730,12 @@ private fun paragraph(
   text: String,
   style: Style = Style.EMPTY,
   vararg placeholders: Pair<String, Style> = emptyArray()
-) =
-  FeatureDefinition(text.normalize()) { translationId ->
-    ParagraphFeature(separateComponentStyles(translationId, style, *placeholders.map {
-      Component.translatable(
-        TRANSLATION_PLACEHOLDERS + placeholderSubstring(it.first)
-      ).setStyle(it.second)
-    }.toTypedArray()))
+) = FeatureDefinition(text.normalize(), placeholders.map { it.first }) { translationId ->
+  ParagraphFeature(separateComponentStyles(translationId, style, *placeholders.map {
+    Component.translatable(
+      TRANSLATION_PLACEHOLDERS + placeholderId(it.first)
+    ).setStyle(it.second)
+  }.toTypedArray()))
 }
 
 private fun pageBreak() = FeatureDefinition(null) { PageBreakFeature() }

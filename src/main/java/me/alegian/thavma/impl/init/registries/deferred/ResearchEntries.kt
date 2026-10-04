@@ -27,7 +27,7 @@ object ResearchEntries {
   }
 
   object Lore {
-    val MYTH = register("myth", ResearchCategories.LORE)
+    val SEA_MYTH = register("sea_myth", ResearchCategories.LORE)
   }
 }
 
